@@ -3,7 +3,6 @@ import datetime
 import pickle
 import os
 
-
 class Task:
 
     def __init__(self, title, description, finish_date):
@@ -31,35 +30,41 @@ class Task:
                 print(f"\tUdate {cont}\n\tUpdate Date: {update[0]}\n\tUpdate Description: {update[1]}\n")
         print("----------------------------------------")
 
-
 save_path = "saves.pickle"
 task_list = []
 
-# opening tasks
-if os.path.isfile(save_path):
-    with open(save_path, "rb") as f:
-        task_list = pickle.load(f)
+def main():
 
-# adding tasks
-# task = Task('Task 1', 'Study Python Functions', '29/12/2020')
-# task_list.append(task)
-# task = Task('Task 2', 'Study Python Dict', '30/12/2020')
-# task_list.append(task)
-# task = Task('Task 3', 'Study Python Lists', '31/12/2020')
-# task_list.append(task)
+    global task_list
+    
+    # opening tasks
+    if os.path.isfile(save_path):
+        with open(save_path, "rb") as f:
+            task_list = pickle.load(f)
 
-# updating tasks
-# task_list[4].add_update_task('This is an update', '27/12/2020')
-# task_list[5].add_update_task('This is an update', '27/12/2020')
-# task_list[6].add_update_task('This is an update', '28/12/2020')
+    # adding tasks
+    task = Task('Task 1', 'Study Python Functions', '29/12/2020')
+    task_list.append(task)
+    task = Task('Task 2', 'Study Python Dict', '30/12/2020')
+    task_list.append(task)
+    task = Task('Task 3', 'Study Python Lists', '31/12/2020')
+    task_list.append(task)
 
-# change status task
-# task_list[1].change_status_task()
+    # updating tasks
+    task_list[0].add_update_task('This is an update', '27/12/2020')
+    task_list[1].add_update_task('This is an update', '27/12/2020')
+    task_list[2].add_update_task('This is an update', '28/12/2020')
 
-# showing tasks
-for task in task_list:
-    task.show_infos()
+    # change status task
+    task_list[1].change_status_task()
 
-#saving tasks
-with open(save_path, "wb") as f:
-    pickle.dump(task_list, f)
+    # showing tasks
+    for task in task_list:
+        task.show_infos()
+
+    #saving tasks
+    with open(save_path, "wb") as f:
+        pickle.dump(task_list, f)
+
+if __name__ == "__main__":
+    main()
