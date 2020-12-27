@@ -15,7 +15,7 @@ class Task:
         self.update_list = []
 
     def add_update_task(self, up_desc, up_date):
-        self.update_list.append((up_desc, up_date))
+        self.update_list.append([up_desc, up_date])
 
     def change_status_task(self):
         self.task_active_status = not self.task_active_status
@@ -57,6 +57,7 @@ def main():
 
     # change status task
     task_list[1].change_status_task()
+    task_list[2].change_status_task()
 
     # showing tasks
     for task in task_list:
