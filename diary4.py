@@ -10,6 +10,7 @@ from tkinter import ttk
 from tkinter import font
 from tkinter import messagebox
 
+
 from Task import Task
 
 ###################################################################################################
@@ -235,6 +236,28 @@ def add_task():
     buttonaddup = Button(lfadd, text='Add Task', command=add_task_commit)
     buttonaddup.grid(row=4, column=0, padx=10, pady=(10,8), ipadx=5)
 
+def delete_task():
+    try:
+        result = messagebox.askquestion("Delete", "Are You Sure?", icon='warning')
+        if result == 'yes':
+            id_ = int(item["values"][0])
+            task_list.pop(id_ -1)
+
+            for cont, task in enumerate(task_list, start=1):
+                task.task_id = cont 
+
+            add_tv_rows()
+            clear_inputs()
+        else:
+            pass
+    except:
+        pass
+
+def call_delete(event):
+    delete_task()
+
+root.bind('<Delete>', call_delete)
+
 def clear_inputs():
 
     entryStartDate.delete(0, "end")
@@ -302,11 +325,14 @@ def add_update():
 frame_buttons = Frame(root, bg='black')
 frame_buttons.grid(row=3, column=0, pady=(0,10))
 
-buttonAddTask = Button(frame_buttons, width=10, text='Add Task', command=add_task)
-buttonAddTask.grid(row=0, column=0, padx=(0,10))
+buttonAddTask = Button(frame_buttons, borderwidth=4, font=(None, 11), width=10, text='Add Task', command=add_task, bg='SteelBlue2')
+buttonAddTask.grid(row=0, column=0, padx=(0,50))
 
-buttonAddUpdate = Button(frame_buttons, width=10, text='Add Update', command=add_update)
-buttonAddUpdate.grid(row=0, column=2)
+buttonDeleteTask = Button(frame_buttons, borderwidth=4, font=(None, 11), width=10, text='Delete Task', command=delete_task, bg='Tomato3')
+buttonDeleteTask.grid(row=0, column=1)
+
+buttonAddUpdate = Button(frame_buttons, borderwidth=4, font=(None, 11), width=10, text='Add Update', command=add_update, bg='Green3')
+buttonAddUpdate.grid(row=0, column=2, padx=(50,50))
 
 ###################################################################################################
 
@@ -418,12 +444,16 @@ tv.bind("<<TreeviewSelect>>", handle_selection)
 
 def close_window():
 
-    #saving tasks
-    with open((save_path), "wb") as f:
-        pickle.dump(task_list, f, protocol=pickle.HIGHEST_PROTOCOL)
+    result = messagebox.askquestion("Exit Program", "Are You Sure?", icon='warning')
+    if result == 'yes':
+        #saving tasks
+        with open((save_path), "wb") as f:
+            pickle.dump(task_list, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-    root.destroy()
-    sys.exit(0)
+        root.destroy()
+        sys.exit(0)
+    else:
+        pass
 
 root.protocol("WM_DELETE_WINDOW", close_window)
 
