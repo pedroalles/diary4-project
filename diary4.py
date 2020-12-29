@@ -38,16 +38,25 @@ root.resizable(False, False)
 
 ###################################################################################################
 
+def deselect(event):
+    selection = tv.selection()
+    if len(selection) > 0:
+        tv.selection_remove(tv.selection()[0])
+
+root.bind('<Escape>', deselect)    
+
 def done_update():
 
-    try:
+    selection = tv.selection()
+    if selection:
+
+        item = tv.item(selection)
         id_ = int(item["values"][0])
         task_list[id_ -1].change_status_task()
         add_tv_rows()
         child_id = tv.get_children()[id_ -1]
         tv.selection_set(child_id)
-    except:
-        pass
+
 
 def task_update(event=None):
 
@@ -55,8 +64,13 @@ def task_update(event=None):
     up_task_decription = entryDescription.get()
     up_task_updecription = entryUpdateDescription.get()
 
-    try:
+
+    selection = tv.selection()
+    if selection:
+
+        item = tv.item(selection)
         id_ = int(item["values"][0])
+
         task_list[id_ -1].task_title = up_task_title
         task_list[id_ -1].task_description = up_task_decription
 
@@ -67,9 +81,7 @@ def task_update(event=None):
         add_tv_rows()
         child_id = tv.get_children()[id_ -1]
         tv.selection_set(child_id)
-        # root.focus()
-    except:
-        pass
+     
 
 root.bind('<Return>', task_update)
 
@@ -123,28 +135,33 @@ labelDone.grid(row=0, column=8, sticky=EW, padx=(10,0), pady=0)
 var = BooleanVar() 
 var.set(False)
 entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg='black', activebackground='black', command=done_update)
-entryActive.grid(row=1, column=8, sticky=EW, padx=(15,0), pady=0)
+entryActive.grid(row=1, column=8, sticky=EW, padx=(20,0), pady=0)
 
 labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg='black', fg='white')
 labelListUpdates.grid(row=0, column=7, sticky=EW)
 
 box_value = StringVar()
-box = ttk.Combobox(lf, width= 40, justify='center', textvariable=box_value, state='readonly', font=(None, 11))
+box = ttk.Combobox(lf, width= 41, justify='center', textvariable=box_value, state='readonly', font=(None, 11))
 box.grid(row=1, column=7, sticky=EW)
 
 ###################################################################################################
 
-frame_tree = Frame(root)
-frame_tree.grid(row=1, column=0, pady=(10,0))
+frame_tree = Frame(root, bg='black')
+frame_tree.grid(row=1, column=0, pady=(10,0), padx=(10))
+
+tv_scroll = Scrollbar(frame_tree)
+tv_scroll.pack(side=RIGHT, fill=Y, pady=(0))
 
 def disableEvent(event):
     if tv.identify_region(event.x, event.y) == "separator":
         return "break"
 
-tv = ttk.Treeview(frame_tree)
+tv = ttk.Treeview(frame_tree, yscrollcommand=tv_scroll.set)
 tv.pack()
 
 tv.bind("<Button-1>", disableEvent)
+
+tv_scroll.config(command=tv.yview)
 
 tv["column"] = ['ID','Start Date','Title','Description','Last Update','Last Update Description','Done']
 tv["show"] = "headings"
@@ -230,17 +247,24 @@ def add_task():
         task_list.append(Task(id_, new_task_title, new_task_decription, start_date))
 
         add_tv_rows()
-
+        child_id = tv.get_children()[id_ -1]
+        tv.selection_set(child_id)
         newWindow.destroy()
 
     buttonaddup = Button(lfadd, text='Add Task', command=add_task_commit)
     buttonaddup.grid(row=4, column=0, padx=10, pady=(10,8), ipadx=5)
 
 def delete_task():
-    try:
+
+    selection = tv.selection()
+    if selection:
+
+        item = tv.item(selection)
+
+        id_ = int(item["values"][0])
         result = messagebox.askquestion("Delete", "Are You Sure?", icon='warning')
         if result == 'yes':
-            id_ = int(item["values"][0])
+            
             task_list.pop(id_ -1)
 
             for cont, task in enumerate(task_list, start=1):
@@ -248,10 +272,9 @@ def delete_task():
 
             add_tv_rows()
             clear_inputs()
+
         else:
             pass
-    except:
-        pass
 
 def call_delete(event):
     delete_task()
@@ -271,7 +294,10 @@ def clear_inputs():
 
 def add_update():
 
-    try:
+    selection = tv.selection()
+    if selection:
+
+        item = tv.item(selection)
         id_ = int(item["values"][0])
 
         newWindow = Toplevel(root) 
@@ -317,8 +343,6 @@ def add_update():
 
         buttonaddup = Button(lfup, text='Add Update', command=add_update_commit)
         buttonaddup.grid(row=2, column=0, padx=10, pady=(10,8), ipadx=5)
-    except:
-        pass
 
 ###################################################################################################
 
