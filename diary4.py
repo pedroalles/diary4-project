@@ -28,7 +28,7 @@ screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
 window_height = 700
-window_width = 1250
+window_width = 1150
 
 x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
@@ -88,66 +88,66 @@ root.bind('<Return>', task_update)
 ###################################################################################################
 
 frame_inputs = Frame(root, bg='black')
-frame_inputs.grid(row=2, column=0)
+frame_inputs.grid(row=2, column=1, padx=(0,10), pady=(10))
 
 frame_variable = StringVar()
 lf = LabelFrame(frame_inputs, text="Task ID:  00  ", font=(None, 11), bg='black', fg='white')
-lf.grid(row=0, column=0, padx=10, pady=10, ipadx=5, ipady=3)
+lf.grid(row=0, column=0, padx=0, pady=(0,0), ipadx=0, ipady=3)
 
-labelStartDate = Label(lf, text="Start Date", font=(None, 11), bg='black', fg='white')
-labelStartDate.grid(row=0, column=1, sticky=EW, padx=10, pady=0)
+labelStartDate = Label(lf, text="Start Date", font=(None, 11), bg='black', fg='white', anchor="w")
+labelStartDate.grid(row=0, column=1, sticky=EW, padx=10, pady=(5,0))
 
 startDate_variable = StringVar()
-entryStartDate = Entry(lf, width= 13, justify='center', textvariable=startDate_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryStartDate = Entry(lf, width= 15, justify='center', textvariable=startDate_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
 entryStartDate.grid(row=1, column=1, sticky=EW, padx=10, pady=0)
 
-labelTitle = Label(lf, text="Title", font=(None, 11), bg='black', fg='white')
-labelTitle.grid(row=0, column=2, sticky=EW, padx=0, pady=0)
+labelTitle = Label(lf, text="Title", font=(None, 11), bg='black', fg='white', anchor="w")
+labelTitle.grid(row=0, column=2, sticky=EW, padx=0, pady=(5,0))
 
 title_variable = StringVar()
-entryTitle = Entry(lf, width= 15, justify='center', textvariable=title_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryTitle = Entry(lf, width= 20, justify='center', textvariable=title_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
 entryTitle.grid(row=1, column=2, sticky=EW, padx=0, pady=0)
 
-labelDescription = Label(lf, text="Description", font=(None, 11), bg='black', fg='white')
-labelDescription.grid(row=0, column=3, sticky=EW, padx=10, pady=0)
+labelDescription = Label(lf, text="Description", font=(None, 11), bg='black', fg='white', anchor="w")
+labelDescription.grid(row=0, column=3, sticky=EW, padx=10, pady=(5,0))
 
 description_variable = StringVar()
-entryDescription = Entry(lf, width= 20, justify='center', textvariable=description_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryDescription = Entry(lf, width= 30, justify='center', textvariable=description_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
 entryDescription.grid(row=1, column=3, sticky=EW, padx=10, pady=0)
 
-labelUpdateDate = Label(lf, text="Last Update", font=(None, 11), bg='black', fg='white')
-labelUpdateDate.grid(row=0, column=4, sticky=EW, padx=0, pady=0)
+labelUpdateDate = Label(lf, text="Last Update", font=(None, 11), bg='black', fg='white', anchor="w")
+labelUpdateDate.grid(row=0, column=4, sticky=EW, padx=0, pady=(5,0))
 
 updateDate_variable = StringVar()
-entryUpdateDate = Entry(lf, width= 13, justify='center', textvariable=updateDate_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryUpdateDate = Entry(lf, width= 15, justify='center', textvariable=updateDate_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
 entryUpdateDate.grid(row=1, column=4, sticky=EW, padx=0, pady=0)
 
-labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11), bg='black', fg='white')
-labelUpdateDescription.grid(row=0, column=5, sticky=EW, padx=10, pady=0)
+labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11), bg='black', fg='white', anchor="w")
+labelUpdateDescription.grid(row=0, column=5, sticky=EW, padx=10, pady=(5,0))
 
 updateDescription_variable = StringVar()
-entryUpdateDescription = Entry(lf, width= 15, justify='center', textvariable=updateDescription_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryUpdateDescription = Entry(lf, width= 30, justify='center', textvariable=updateDescription_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
 entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=10, pady=0)
 
 labelDone = Label(lf, text="Done", font=(None, 11), bg='black', fg='white')
-labelDone.grid(row=0, column=8, sticky=EW, padx=(10,0), pady=0)
+labelDone.grid(row=2, column=5, sticky=EW, padx=(10,0), pady=(10,0))
 
 var = BooleanVar() 
 var.set(False)
 entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg='black', activebackground='black', command=done_update)
-entryActive.grid(row=1, column=8, sticky=EW, padx=(20,0), pady=0)
+entryActive.grid(row=3, column=5, sticky=EW, padx=(20,0), pady=(0,5))
 
-labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg='black', fg='white')
-labelListUpdates.grid(row=0, column=7, sticky=EW)
+labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg='black', fg='white', anchor="w")
+labelListUpdates.grid(row=2, column=0, sticky=EW, columnspan=5, padx=(10,0), pady=(10,0))
 
 box_value = StringVar()
 box = ttk.Combobox(lf, width= 41, justify='center', textvariable=box_value, state='readonly', font=(None, 11))
-box.grid(row=1, column=7, sticky=EW)
+box.grid(row=3, column=0, sticky=EW, columnspan=5, padx=(10,0), pady=(0,5))
 
 ###################################################################################################
 
 frame_tree = Frame(root, bg='black')
-frame_tree.grid(row=1, column=0, pady=(10,0), padx=(10))
+frame_tree.grid(row=1, column=0, pady=(10,0), padx=(10), columnspan=2)
 
 tv_scroll = Scrollbar(frame_tree)
 tv_scroll.pack(side=RIGHT, fill=Y, pady=(0))
@@ -156,7 +156,7 @@ def disableEvent(event):
     if tv.identify_region(event.x, event.y) == "separator":
         return "break"
 
-tv = ttk.Treeview(frame_tree, yscrollcommand=tv_scroll.set)
+tv = ttk.Treeview(frame_tree, yscrollcommand=tv_scroll.set, height=15)
 tv.pack()
 
 tv.bind("<Button-1>", disableEvent)
@@ -347,16 +347,16 @@ def add_update():
 ###################################################################################################
 
 frame_buttons = Frame(root, bg='black')
-frame_buttons.grid(row=3, column=0, pady=(0,10))
+frame_buttons.grid(row=2, column=0, pady=(10,10), padx=(10,5))
 
-buttonAddTask = Button(frame_buttons, borderwidth=4, font=(None, 11), width=10, text='Add Task', command=add_task, bg='SteelBlue2')
-buttonAddTask.grid(row=0, column=0, padx=(0,50))
+buttonAddTask = Button(frame_buttons, borderwidth=4, font=(None, 12), width=16, text='Add Task', command=add_task, bg='SteelBlue2')
+buttonAddTask.grid(row=0, column=0, padx=(0,0), pady=(0,15))
 
-buttonDeleteTask = Button(frame_buttons, borderwidth=4, font=(None, 11), width=10, text='Delete Task', command=delete_task, bg='Tomato3')
-buttonDeleteTask.grid(row=0, column=1)
+buttonAddUpdate = Button(frame_buttons, borderwidth=4, font=(None, 12), width=16, text='Add Update', command=add_update, bg='Green3')
+buttonAddUpdate.grid(row=1, column=0, padx=(0,0), pady=(0,15))
 
-buttonAddUpdate = Button(frame_buttons, borderwidth=4, font=(None, 11), width=10, text='Add Update', command=add_update, bg='Green3')
-buttonAddUpdate.grid(row=0, column=2, padx=(50,50))
+buttonDeleteTask = Button(frame_buttons, borderwidth=4, font=(None, 12), width=16, text='Delete Task', command=delete_task, bg='Tomato3')
+buttonDeleteTask.grid(row=2, column=0, pady=(0,0))
 
 ###################################################################################################
 
