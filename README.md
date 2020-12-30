@@ -23,6 +23,7 @@ Desktop App to record and manage updates about my studies, projects and daily ta
 <kbd><img src="img/add2ndupdate.png"></kbd>
 
 * Second update added:
+
 It is possible to consult the list of updates ordered by date of each task.
 
 <kbd><img src="img/2ndupdateadded.png"></kbd>
