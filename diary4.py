@@ -10,7 +10,6 @@ from tkinter import ttk
 from tkinter import font
 from tkinter import messagebox
 
-
 from Task import Task
 
 ###################################################################################################
@@ -57,13 +56,19 @@ def done_update():
         child_id = tv.get_children()[id_ -1]
         tv.selection_set(child_id)
 
+editing = "task"
 
 def task_update(event=None):
 
+    global updates
     up_task_title = entryTitle.get()
     up_task_decription = entryDescription.get()
     up_task_updecription = entryUpdateDescription.get()
 
+    updates_len = len(updates)
+    index_ = box.current()
+
+    index_final = (index_+1 - updates_len) * -1
 
     selection = tv.selection()
     if selection:
@@ -75,13 +80,15 @@ def task_update(event=None):
         task_list[id_ -1].task_description = up_task_decription
 
         updates = (len(task_list[int(item['values'][0])-1].update_list))
+
         if updates > 0:
-            task_list[id_ -1].update_list[-1][1] = up_task_updecription
+            task_list[id_ -1].update_list[index_final][1] = up_task_updecription
 
         add_tv_rows()
         child_id = tv.get_children()[id_ -1]
         tv.selection_set(child_id)
-     
+
+        root.focus()
 
 root.bind('<Return>', task_update)
 
@@ -91,42 +98,42 @@ frame_inputs = Frame(root, bg='black')
 frame_inputs.grid(row=2, column=1, padx=(10), pady=(0,10))
 
 frame_variable = StringVar()
-lf = LabelFrame(frame_inputs, borderwidth= 4, text="  Task ID:  00  ", font=(None, 11), bg='black', fg='white')
+lf = LabelFrame(frame_inputs, borderwidth= 4, text="  Task ID:  00  ", font=(None, 12), bg='black', fg='white')
 lf.grid(row=0, column=0, padx=0, pady=(0,0), ipadx=0, ipady=3)
 
 labelStartDate = Label(lf, text="Start Date", font=(None, 11), bg='black', fg='white', anchor="w")
 labelStartDate.grid(row=0, column=1, sticky=EW, padx=15, pady=(5,0))
 
 startDate_variable = StringVar()
-entryStartDate = Entry(lf, borderwidth= 4, width= 15, justify='center', textvariable=startDate_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryStartDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=startDate_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
 entryStartDate.grid(row=1, column=1, sticky=EW, padx=15, pady=0)
 
 labelTitle = Label(lf, text="Title", font=(None, 11), bg='black', fg='white', anchor="w")
 labelTitle.grid(row=0, column=2, sticky=EW, padx=0, pady=(5,0))
 
 title_variable = StringVar()
-entryTitle = Entry(lf, borderwidth= 4, width= 25, justify='left', textvariable=title_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryTitle = Entry(lf, borderwidth= 4, width= 23, justify='left', textvariable=title_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
 entryTitle.grid(row=1, column=2, sticky=EW, padx=0, pady=0)
 
 labelDescription = Label(lf, text="Description", font=(None, 11), bg='black', fg='white', anchor="w")
 labelDescription.grid(row=0, column=3, sticky=EW, padx=15, pady=(5,0))
 
 description_variable = StringVar()
-entryDescription = Entry(lf, borderwidth= 4, width= 35, justify='left', textvariable=description_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=description_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
 entryDescription.grid(row=1, column=3, sticky=EW, padx=15, pady=0)
 
 labelUpdateDate = Label(lf, text="Last Update", font=(None, 11), bg='black', fg='white', anchor="w")
 labelUpdateDate.grid(row=0, column=4, sticky=EW, padx=0, pady=(5,0))
 
 updateDate_variable = StringVar()
-entryUpdateDate = Entry(lf, borderwidth= 4, width= 15, justify='center', textvariable=updateDate_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryUpdateDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=updateDate_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
 entryUpdateDate.grid(row=1, column=4, sticky=EW, padx=0, pady=0)
 
 labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11), bg='black', fg='white', anchor="w")
 labelUpdateDescription.grid(row=0, column=5, sticky=EW, padx=(15, 15), pady=(5,0))
 
 updateDescription_variable = StringVar()
-entryUpdateDescription = Entry(lf, borderwidth= 4, width= 35, justify='left', textvariable=updateDescription_variable, font=(None, 11), bg='black', fg='white', insertbackground='white')
+entryUpdateDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=updateDescription_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
 entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=(15, 15), pady=0)
 
 labelDone = Label(lf, text="Done", font=(None, 11), bg='black', fg='white')
@@ -141,8 +148,46 @@ labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg='black', fg
 labelListUpdates.grid(row=2, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(10,0))
 
 box_value = StringVar()
-box = ttk.Combobox(lf, width= 41, justify='left', textvariable=box_value, state='readonly', font=(None, 11))
-box.grid(row=3, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(0,5))
+box = ttk.Combobox(lf, width= 41, justify='left', textvariable=box_value, state='readonly', font=(None, 12))
+box.grid(row=3, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(0,5), ipady=(2))
+
+def make_ordinal(n):
+
+    n = int(n)
+    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
+    if 11 <= (n % 100) <= 13:
+        suffix = 'th'
+    return str(n) + suffix
+
+def select_update(event):
+
+    global editing
+    global index_
+    global index_final
+    global update_to_edit
+
+    editing = "updates"
+
+    updates_len = len(updates)
+    index_ = box.current()
+
+    index_final = (index_+1 - updates_len) * -1
+
+    update_to_edit = task_list[int(item['values'][0])-1].update_list[index_final]
+ 
+    updateDate_variable.set("")
+    updateDescription_variable.set("")
+    updateDate_variable.set(update_to_edit[0])
+    updateDescription_variable.set(update_to_edit[1])
+
+    if int(index_) != 0:
+        labelUpdateDate.config(text=f'{make_ordinal(index_final+1)} Update')
+        labelUpdateDescription.config(text=f'{make_ordinal(index_final+1)} Update Description')
+    else:
+        labelUpdateDate.config(text=f'Last Update')
+        labelUpdateDescription.config(text=f'Last Update Description')
+
+box.bind("<<ComboboxSelected>>", select_update)
 
 ###################################################################################################
 
@@ -354,7 +399,6 @@ def add_update():
 
         newWindow.bind('<Return>', enter_update)
 
-
 ###################################################################################################
 
 frame_buttons = Frame(root, bg='black')
@@ -386,8 +430,7 @@ style.map('TCombobox', foreground=[('readonly', 'white')])
 style.map('TCombobox', selectbackground=[('readonly', 'black')])
 style.map('TCombobox', selectforeground=[('readonly', 'white')])
 
-
-bigfont = font.Font(family="Helvetica",size=11)
+bigfont = font.Font(family="Helvetica",size=12)
 root.option_add("*TCombobox*Listbox*Font", bigfont)
 
 root.option_add('*TCombobox*Listbox.Background', 'black') 
@@ -446,9 +489,26 @@ def add_tv_rows():
 
 add_tv_rows()
 
+def detect_tv_click(event):
+    global editing
+    global index_
+
+    index_ = box.current()
+
+    editing = "updates"
+     
+entryTitle.bind("<Button-1>", detect_tv_click)
+entryDescription.bind("<Button-1>", detect_tv_click)
+entryUpdateDescription.bind("<Button-1>", detect_tv_click)
+
 def handle_selection(event):
 
     global item
+    global updates
+    global editing
+
+    labelUpdateDate.config(text=f'Last Update')
+    labelUpdateDescription.config(text=f'Last Update Description')
 
     clear_inputs()
 
@@ -472,10 +532,28 @@ def handle_selection(event):
 
         updates = [f'          {cont:02d}                                        {update[0]}                                        {update[1]}' for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
         updates.reverse()
+
         box['values'] = updates
-        if len(updates) > 0:
+
+        if len(updates) > 0 and editing == "task":
             box.current(0)
-    
+
+        if len(updates) > 0 and editing == "updates":
+            box.current(index_)
+            if int(index_) != 0:
+                labelUpdateDate.config(text=f'{make_ordinal(index_final+1)} Update')
+                labelUpdateDescription.config(text=f'{make_ordinal(index_final+1)} Update Description')
+            
+                updateDate_variable.set("")
+                updateDescription_variable.set("")
+                updateDate_variable.set(update_to_edit[0])
+                updateDescription_variable.set(update_to_edit[1])
+            else:
+                labelUpdateDate.config(text=f'Last Update')
+                labelUpdateDescription.config(text=f'Last Update Description')
+
+        editing = "task"
+
 tv.bind("<<TreeviewSelect>>", handle_selection)
 
 def close_window():
