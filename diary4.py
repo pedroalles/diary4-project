@@ -57,6 +57,7 @@ def done_update():
         tv.selection_set(child_id)
 
 editing = "task"
+deleting = "task"
 
 def task_update(event=None):
 
@@ -162,6 +163,7 @@ def make_ordinal(n):
 def select_update(event):
 
     global editing
+    global deleting
     global index_
     global index_final
     global update_to_edit
@@ -169,9 +171,15 @@ def select_update(event):
     updates_len = len(updates)
     index_ = box.current()
 
+    # print(index_)
+
     index_final = (index_+1 - updates_len) * -1
 
+    # print(index_final)
+
     update_to_edit = task_list[int(item['values'][0])-1].update_list[index_final]
+
+    # print(update_to_edit)
  
     updateDate_variable.set("")
     updateDescription_variable.set("")
@@ -184,6 +192,11 @@ def select_update(event):
     else:
         labelUpdateDate.config(text=f'Last Update')
         labelUpdateDescription.config(text=f'Last Update Description')
+
+    deleting = "updates"
+
+    # print('edit ' +editing)
+    # print('del ' +deleting)
 
 box.bind("<<ComboboxSelected>>", select_update)
 
@@ -310,7 +323,7 @@ def delete_task():
         item = tv.item(selection)
 
         id_ = int(item["values"][0])
-        result = messagebox.askquestion("Delete", "Are You Sure?", icon='warning')
+        result = messagebox.askquestion("Delete Task", "Are You Sure?", icon='warning')
         if result == 'yes':
             
             task_list.pop(id_ -1)
@@ -324,8 +337,38 @@ def delete_task():
         else:
             pass
 
+def delete_update():
+
+    
+    selection = tv.selection()
+    if selection:
+
+        item = tv.item(selection)
+
+        id_ = int(item["values"][0]) - 1
+
+        result = messagebox.askquestion("Delete Update", "Are You Sure?", icon='warning')
+        if result == 'yes':
+            
+            task_list[id_].update_list.pop(index_final)
+
+            for cont, task in enumerate(task_list, start=1):
+                task.task_id = cont 
+
+            add_tv_rows()
+            clear_inputs()
+            child_id = tv.get_children()[id_]
+            tv.selection_set(child_id)
+
+        else:
+            pass
+
+
 def call_delete(event):
-    delete_task()
+    if deleting == "task":
+        delete_task()
+    if deleting == "updates":
+        delete_update()
 
 root.bind('<Delete>', call_delete)
 
@@ -504,6 +547,7 @@ def handle_selection(event):
     global item
     global updates
     global editing
+    global deleting
 
     # index_ = box.current()
 
@@ -553,6 +597,10 @@ def handle_selection(event):
                 labelUpdateDescription.config(text=f'Last Update Description')
 
         editing = "task"
+        deleting = "task"
+
+        # print('edit ' +editing)
+        # print('del ' +deleting)
 
 tv.bind("<<TreeviewSelect>>", handle_selection)
 
