@@ -257,7 +257,7 @@ def add_task():
     id_ = len(task_list) + 1
 
     newWindow = Toplevel(root) 
-    newWindow.title('Add Task')
+    newWindow.title('New Task')
     newWindow.configure(background='black')
 
     screen_width = newWindow.winfo_screenwidth()
@@ -370,6 +370,12 @@ def call_delete(event):
     if deleting == "updates":
         delete_update()
 
+def call_delete_bt():
+    if deleting == "task":
+        delete_task()
+    if deleting == "updates":
+        delete_update()
+
 root.bind('<Delete>', call_delete)
 
 def clear_inputs():
@@ -445,13 +451,13 @@ def add_update():
 frame_buttons = Frame(root, bg='black')
 frame_buttons.grid(row=2, column=0, pady=(10,10), padx=(10,0))
 
-buttonAddTask = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='Add Task', command=add_task, bg='SteelBlue2')
+buttonAddTask = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='New Task', command=add_task, bg='SteelBlue2')
 buttonAddTask.grid(row=0, column=0, padx=(0,0), pady=(0,10), ipady=(2))
 
 buttonAddUpdate = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='Add Update', command=add_update, bg='Green3')
 buttonAddUpdate.grid(row=1, column=0, padx=(0,0), pady=(0,10), ipady=(2))
 
-buttonDeleteTask = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='Delete Task', command=delete_task, bg='Tomato3')
+buttonDeleteTask = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='Delete', command=call_delete_bt, bg='Tomato3')
 buttonDeleteTask.grid(row=2, column=0, pady=(0,0), ipady=(2))
 
 ###################################################################################################
