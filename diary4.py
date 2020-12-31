@@ -27,12 +27,12 @@ screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
 window_height = 768 
-window_width = 1366
+window_width = 1360
 
 x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 
-root.geometry("+{}+{}".format(x_cordinate, 0))
+root.geometry("+0+0")
 root.resizable(False, False)
 
 ###################################################################################################
@@ -165,8 +165,6 @@ def select_update(event):
     global index_
     global index_final
     global update_to_edit
-
-    editing = "updates"
 
     updates_len = len(updates)
     index_ = box.current()
@@ -506,6 +504,8 @@ def handle_selection(event):
     global item
     global updates
     global editing
+
+    # index_ = box.current()
 
     labelUpdateDate.config(text=f'Last Update')
     labelUpdateDescription.config(text=f'Last Update Description')
