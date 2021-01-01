@@ -1,5 +1,5 @@
-import os
-import sys
+from os import getlogin
+from os.path import exists
 
 import time
 import datetime
@@ -14,14 +14,17 @@ from Task import Task
 
 ###################################################################################################
 
-save_path = f"C:\\Users\\{os.getlogin()}\\Documents\\saves.pkl"
+save_path = f"C:\\Users\\{getlogin()}\\Documents\\saves.pkl"
 task_list = []
 
 ###################################################################################################
 
+intern_color = "gray4"
+extern_color = "gray9"
+
 root = Tk()
 root.title('Diary 4')
-root.configure(background='black')
+root.configure(background=extern_color)
 
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
@@ -95,57 +98,57 @@ root.bind('<Return>', task_update)
 
 ###################################################################################################
 
-frame_inputs = Frame(root, bg='black')
+frame_inputs = Frame(root, bg=extern_color)
 frame_inputs.grid(row=2, column=1, padx=(10), pady=(0,10))
 
 frame_variable = StringVar()
-lf = LabelFrame(frame_inputs, borderwidth= 4, text="  Task ID:  00  ", font=(None, 12), bg='black', fg='white')
+lf = LabelFrame(frame_inputs, borderwidth= 3, text="  Task ID:  00  ", font=(None, 12), bg=extern_color, fg='white')
 lf.grid(row=0, column=0, padx=0, pady=(0,0), ipadx=0, ipady=3)
 
-labelStartDate = Label(lf, text="Start Date", font=(None, 11), bg='black', fg='white', anchor="w")
+labelStartDate = Label(lf, text="Start Date", font=(None, 11), bg=extern_color, fg='white', anchor="w")
 labelStartDate.grid(row=0, column=1, sticky=EW, padx=15, pady=(5,0))
 
 startDate_variable = StringVar()
-entryStartDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=startDate_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
+entryStartDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=startDate_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryStartDate.grid(row=1, column=1, sticky=EW, padx=15, pady=0)
 
-labelTitle = Label(lf, text="Title", font=(None, 11), bg='black', fg='white', anchor="w")
+labelTitle = Label(lf, text="Title", font=(None, 11), bg=extern_color, fg='white', anchor="w")
 labelTitle.grid(row=0, column=2, sticky=EW, padx=0, pady=(5,0))
 
 title_variable = StringVar()
-entryTitle = Entry(lf, borderwidth= 4, width= 23, justify='left', textvariable=title_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
+entryTitle = Entry(lf, borderwidth= 4, width= 23, justify='left', textvariable=title_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryTitle.grid(row=1, column=2, sticky=EW, padx=0, pady=0)
 
-labelDescription = Label(lf, text="Description", font=(None, 11), bg='black', fg='white', anchor="w")
+labelDescription = Label(lf, text="Description", font=(None, 11), bg=extern_color, fg='white', anchor="w")
 labelDescription.grid(row=0, column=3, sticky=EW, padx=15, pady=(5,0))
 
 description_variable = StringVar()
-entryDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=description_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
+entryDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=description_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryDescription.grid(row=1, column=3, sticky=EW, padx=15, pady=0)
 
-labelUpdateDate = Label(lf, text="Last Update", font=(None, 11), bg='black', fg='white', anchor="w")
+labelUpdateDate = Label(lf, text="Last Update", font=(None, 11), bg=extern_color, fg='white', anchor="w")
 labelUpdateDate.grid(row=0, column=4, sticky=EW, padx=0, pady=(5,0))
 
 updateDate_variable = StringVar()
-entryUpdateDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=updateDate_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
+entryUpdateDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=updateDate_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryUpdateDate.grid(row=1, column=4, sticky=EW, padx=0, pady=0)
 
-labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11), bg='black', fg='white', anchor="w")
+labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11), bg=extern_color, fg='white', anchor="w")
 labelUpdateDescription.grid(row=0, column=5, sticky=EW, padx=(15, 15), pady=(5,0))
 
 updateDescription_variable = StringVar()
-entryUpdateDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=updateDescription_variable, font=(None, 12), bg='black', fg='white', insertbackground='white')
+entryUpdateDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=updateDescription_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=(15, 15), pady=0)
 
-labelDone = Label(lf, text="Done", font=(None, 11), bg='black', fg='white')
+labelDone = Label(lf, text="Done", font=(None, 11), bg=extern_color, fg='white')
 labelDone.grid(row=2, column=5, sticky=EW, padx=(10,0), pady=(10,0))
 
 var = BooleanVar() 
 var.set(False)
-entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg='black', activebackground='black', command=done_update)
+entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg=extern_color, activebackground=extern_color, command=done_update)
 entryActive.grid(row=3, column=5, sticky=EW, padx=(20,0), pady=(0,5))
 
-labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg='black', fg='white', anchor="w")
+labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg=extern_color, fg='white', anchor="w")
 labelListUpdates.grid(row=2, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(10,0))
 
 box_value = StringVar()
@@ -202,7 +205,7 @@ box.bind("<<ComboboxSelected>>", select_update)
 
 ###################################################################################################
 
-frame_tree = Frame(root, bg='black')
+frame_tree = Frame(root, bg=extern_color)
 frame_tree.grid(row=1, column=0, pady=(10,0), padx=(10), columnspan=2)
 
 tv_scroll = Scrollbar(frame_tree)
@@ -258,13 +261,13 @@ def add_task():
 
     newWindow = Toplevel(root) 
     newWindow.title('New Task')
-    newWindow.configure(background='black')
+    newWindow.configure(background=extern_color)
 
     screen_width = newWindow.winfo_screenwidth()
     screen_height = newWindow.winfo_screenheight()
 
-    window_height = 450
-    window_width = 200
+    window_height = 460
+    window_width = 320
 
     x_cordinate = int((screen_width/2) - (window_width/2))
     y_cordinate = int((screen_height/2) - (window_height/2))
@@ -272,25 +275,25 @@ def add_task():
     newWindow.geometry("+{}+{}".format(x_cordinate, y_cordinate))
     newWindow.resizable(False, False)
 
-    frame_add = Frame(newWindow, bg='black')
+    frame_add = Frame(newWindow, bg=extern_color)
     frame_add.grid(row=0, column=0)
 
     frame_add_var = StringVar()
-    lfadd = LabelFrame(frame_add, text=f"  Task ID:  {id_}  ", font=(None, 11), bg='black', fg='white')
+    lfadd = LabelFrame(frame_add, text=f"  Task ID:  {id_}  ", font=(None, 11), bg=extern_color, fg='white')
     lfadd.grid(row=0, column=0, padx=10, pady=10, ipadx=5, ipady=0)
 
-    labeladd = Label(lfadd, text="Title", font=(None, 11), bg='black', fg='white', anchor='w')
+    labeladd = Label(lfadd, text="Title", font=(None, 11), bg=extern_color, fg='white', anchor='w')
     labeladd.grid(row=0, column=0, sticky=EW, padx=10, pady=(5,0))
 
     add_var_title = StringVar()
-    entryadd = Entry(lfadd, width= 30, justify='left', textvariable=add_var_title, font=(None, 11), bg='black', fg='white', insertbackground='white')
+    entryadd = Entry(lfadd, width= 30, justify='left', textvariable=add_var_title, font=(None, 11), bg=intern_color, fg='white', insertbackground='white')
     entryadd.grid(row=1, column=0, sticky=EW, padx=10, pady=0)
 
-    labeladddesc = Label(lfadd, text="Description", font=(None, 11), bg='black', fg='white', anchor='w')
+    labeladddesc = Label(lfadd, text="Description", font=(None, 11), bg=extern_color, fg='white', anchor='w')
     labeladddesc.grid(row=2, column=0, sticky=EW, padx=10, pady=(5,0))
 
     add_var_desc = StringVar()
-    entryadddesc = Entry(lfadd, width= 30, justify='left', textvariable=add_var_desc, font=(None, 11), bg='black', fg='white', insertbackground='white')
+    entryadddesc = Entry(lfadd, width= 30, justify='left', textvariable=add_var_desc, font=(None, 11), bg=intern_color, fg='white', insertbackground='white')
     entryadddesc.grid(row=3, column=0, sticky=EW, padx=10, pady=0)
 
     entryadd.focus()
@@ -310,7 +313,7 @@ def add_task():
     def enter_add_task(event):
         add_task_commit()
 
-    buttonaddup = Button(lfadd, text='Add Task', command=add_task_commit)
+    buttonaddup = Button(lfadd, text='Add Task', command=add_task_commit, bg='SteelBlue2')
     buttonaddup.grid(row=4, column=0, padx=10, pady=(10,8), ipadx=5)
 
     newWindow.bind('<Return>', enter_add_task)
@@ -399,7 +402,7 @@ def add_update():
 
         newWindow = Toplevel(root) 
         newWindow.title('Add Update')
-        newWindow.configure(background='black')
+        newWindow.configure(background=extern_color)
 
         screen_width = newWindow.winfo_screenwidth()
         screen_height = newWindow.winfo_screenheight()
@@ -413,18 +416,18 @@ def add_update():
         newWindow.geometry("+{}+{}".format(x_cordinate, y_cordinate))
         newWindow.resizable(False, False)
 
-        frame_up = Frame(newWindow, bg='black')
+        frame_up = Frame(newWindow, bg=extern_color)
         frame_up.grid(row=0, column=0)
 
         frame_up_var = StringVar()
-        lfup = LabelFrame(frame_up, text=f"  Task ID:  {id_}  ", font=(None, 11), bg='black', fg='white')
+        lfup = LabelFrame(frame_up, text=f"  Task ID:  {id_}  ", font=(None, 11), bg=extern_color, fg='white')
         lfup.grid(row=0, column=0, padx=10, pady=10, ipadx=5, ipady=0)
 
-        labelupdesc = Label(lfup, text="Update Description", font=(None, 11), bg='black', fg='white', anchor='w')
+        labelupdesc = Label(lfup, text="Update Description", font=(None, 11), bg=extern_color, fg='white', anchor='w')
         labelupdesc.grid(row=0, column=0, sticky=EW, padx=10, pady=5)
 
         update_var = StringVar()
-        entryupdesc = Entry(lfup, width= 30, justify='left', textvariable=update_var, font=(None, 11), bg='black', fg='white', insertbackground='white')
+        entryupdesc = Entry(lfup, width= 30, justify='left', textvariable=update_var, font=(None, 11), bg=intern_color, fg='white', insertbackground='white')
         entryupdesc.grid(row=1, column=0, sticky=EW, padx=10, pady=0)
         entryupdesc.focus()
     
@@ -441,46 +444,48 @@ def add_update():
         def enter_update(event):
             add_update_commit()
 
-        buttonaddup = Button(lfup, text='Add Update', command=add_update_commit)
+        buttonaddup = Button(lfup, text='Add Update', command=add_update_commit, bg='Lime Green')
         buttonaddup.grid(row=2, column=0, padx=10, pady=(10,8), ipadx=5)
 
         newWindow.bind('<Return>', enter_update)
 
 ###################################################################################################
 
-frame_buttons = Frame(root, bg='black')
+frame_buttons = Frame(root, bg=extern_color)
 frame_buttons.grid(row=2, column=0, pady=(10,10), padx=(10,0))
 
-buttonAddTask = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='New Task', command=add_task, bg='SteelBlue2')
-buttonAddTask.grid(row=0, column=0, padx=(0,0), pady=(0,10), ipady=(2))
+buttonAddTask = Button(frame_buttons, borderwidth=4, font=(None, 12), width=17, text='New Task', command=add_task, bg='SteelBlue2')
+buttonAddTask.grid(row=0, column=0, padx=(0,0), pady=(0,10), ipady=(3))
 
-buttonAddUpdate = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='Add Update', command=add_update, bg='Green3')
-buttonAddUpdate.grid(row=1, column=0, padx=(0,0), pady=(0,10), ipady=(2))
+buttonAddUpdate = Button(frame_buttons, borderwidth=4, font=(None, 12), width=17, text='Add Update', command=add_update, bg='Lime Green')
+buttonAddUpdate.grid(row=1, column=0, padx=(0,0), pady=(0,10), ipady=(3))
 
-buttonDeleteTask = Button(frame_buttons, borderwidth=5, font=(None, 12), width=17, text='Delete', command=call_delete_bt, bg='Tomato3')
-buttonDeleteTask.grid(row=2, column=0, pady=(0,0), ipady=(2))
+buttonDeleteTask = Button(frame_buttons, borderwidth=4, font=(None, 12), width=17, text='Delete', command=call_delete_bt, bg='Tomato2')
+buttonDeleteTask.grid(row=2, column=0, pady=(0,0), ipady=(3))
 
 ###################################################################################################
 
 style = ttk.Style()
 style.theme_use("default")
 
-style.configure("Treeview.Heading", font=(None, 13), borderwidth=5, background='SteelBlue2', foreground="black", fieldbackground='black')
-style.configure("Treeview", font=(None, 12), borderwidth=5, background='black', foreground="white", fieldbackground='black')
+style.configure("Treeview.Heading", font=(None, 13), borderwidth=4, background='SteelBlue2', foreground="black", fieldbackground=intern_color)
+style.configure("Treeview", font=(None, 12), borderwidth=4, background=intern_color, foreground="white", fieldbackground=intern_color)
 
-style.map("Treeview.Heading", foreground=[('pressed', 'white')], background=[('pressed', 'black')])
+style.map("Treeview.Heading", foreground=[('pressed', 'white')], background=[('pressed', intern_color)])
 style.map("Treeview", foreground=[('selected', 'black')],  background=[('selected', 'SteelBlue2')])
 
-style.map('TCombobox', fieldbackground=[('readonly','black')])
+style.map('TCombobox', fieldbackground=[('readonly',intern_color)])
 style.map('TCombobox', background=[('readonly', 'SteelBlue2')])
 style.map('TCombobox', foreground=[('readonly', 'white')])
-style.map('TCombobox', selectbackground=[('readonly', 'black')])
+style.map('TCombobox', borderwidth = [('readonly', 4)])
+style.map('TCombobox', selectbackground=[('readonly', intern_color)])
 style.map('TCombobox', selectforeground=[('readonly', 'white')])
+style.map('TCombobox', selectborderwidth = [('readonly', 0)])
 
 bigfont = font.Font(family="Helvetica",size=12)
 root.option_add("*TCombobox*Listbox*Font", bigfont)
 
-root.option_add('*TCombobox*Listbox.Background', 'black') 
+root.option_add('*TCombobox*Listbox.Background', intern_color) 
 root.option_add('*TCombobox*Listbox.Foreground', 'white') 
 root.option_add('*TCombobox*Listbox.selectBackground', 'SteelBlue2') 
 
@@ -490,11 +495,7 @@ style.configure( 'Vertical.TScrollbar', background='SteelBlue2' )
 
 ###################################################################################################
 
-def resource_path(relative_path):
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
-
-if os.path.exists((save_path)):
+if exists((save_path)):
     with open((save_path), 'rb') as f:
         task_list = pickle.load(f)
 
@@ -619,7 +620,7 @@ def close_window():
             pickle.dump(task_list, f, protocol=pickle.HIGHEST_PROTOCOL)
 
         root.destroy()
-        sys.exit(0)
+        # sys.exit(0)
     else:
         pass
 
