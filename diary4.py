@@ -17,10 +17,15 @@ from Task import Task
 save_path = f"C:\\Users\\{getlogin()}\\Documents\\saves.pkl"
 task_list = []
 
+
+index_ = 0
+
 ###################################################################################################
 
 intern_color = "gray4"
 extern_color = "gray9"
+
+###################################################################################################
 
 root = Tk()
 root.title('Diary 4')
@@ -41,6 +46,7 @@ root.resizable(False, False)
 ###################################################################################################
 
 def deselect(event):
+    clear_inputs()
     selection = tv.selection()
     if len(selection) > 0:
         tv.selection_remove(tv.selection()[0])
@@ -102,58 +108,85 @@ frame_inputs = Frame(root, bg=extern_color)
 frame_inputs.grid(row=2, column=1, padx=(10), pady=(0,10))
 
 frame_variable = StringVar()
-lf = LabelFrame(frame_inputs, borderwidth= 3, text="  Task ID:  00  ", font=(None, 12), bg=extern_color, fg='white')
+lf = LabelFrame(frame_inputs, borderwidth= 3, text="  Task ID:  00  ", font=(None, 12, 'bold'), bg=extern_color, fg='white')
 lf.grid(row=0, column=0, padx=0, pady=(0,0), ipadx=0, ipady=3)
 
-labelStartDate = Label(lf, text="Start Date", font=(None, 11), bg=extern_color, fg='white', anchor="w")
+labelStartDate = Label(lf, text="Start Date", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelStartDate.grid(row=0, column=1, sticky=EW, padx=15, pady=(5,0))
 
 startDate_variable = StringVar()
 entryStartDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=startDate_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryStartDate.grid(row=1, column=1, sticky=EW, padx=15, pady=0)
+entryStartDate.config(disabledbackground=intern_color, disabledforeground='white')
 
-labelTitle = Label(lf, text="Title", font=(None, 11), bg=extern_color, fg='white', anchor="w")
+labelTitle = Label(lf, text="Task Title", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelTitle.grid(row=0, column=2, sticky=EW, padx=0, pady=(5,0))
 
 title_variable = StringVar()
 entryTitle = Entry(lf, borderwidth= 4, width= 23, justify='left', textvariable=title_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryTitle.grid(row=1, column=2, sticky=EW, padx=0, pady=0)
+entryTitle.config(disabledbackground=intern_color, disabledforeground='white')
 
-labelDescription = Label(lf, text="Description", font=(None, 11), bg=extern_color, fg='white', anchor="w")
+labelDescription = Label(lf, text="Task Description", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelDescription.grid(row=0, column=3, sticky=EW, padx=15, pady=(5,0))
 
 description_variable = StringVar()
 entryDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=description_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryDescription.grid(row=1, column=3, sticky=EW, padx=15, pady=0)
+entryDescription.config(disabledbackground=intern_color, disabledforeground='white')
 
-labelUpdateDate = Label(lf, text="Last Update", font=(None, 11), bg=extern_color, fg='white', anchor="w")
+labelUpdateDate = Label(lf, text="Last Update", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelUpdateDate.grid(row=0, column=4, sticky=EW, padx=0, pady=(5,0))
 
 updateDate_variable = StringVar()
 entryUpdateDate = Entry(lf, borderwidth= 4, width= 13, justify='center', textvariable=updateDate_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
 entryUpdateDate.grid(row=1, column=4, sticky=EW, padx=0, pady=0)
+entryUpdateDate.config(disabledbackground=intern_color, disabledforeground='white')
 
-labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11), bg=extern_color, fg='white', anchor="w")
+labelUpdateDescription = Label(lf, text="Last Update Description", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelUpdateDescription.grid(row=0, column=5, sticky=EW, padx=(15, 15), pady=(5,0))
 
 updateDescription_variable = StringVar()
 entryUpdateDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=updateDescription_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
-entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=(15, 15), pady=0)
+entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=(15, 15), pady=0, columnspan=2)
+entryUpdateDescription.config(disabledbackground=intern_color, disabledforeground='white')
 
-labelDone = Label(lf, text="Done", font=(None, 11), bg=extern_color, fg='white')
-labelDone.grid(row=2, column=5, sticky=EW, padx=(10,0), pady=(10,0))
+
+labelDone = Label(lf, text="Update Done", font=(None, 11, 'bold'), bg=extern_color, fg='white')
+labelDone.grid(row=2, column=5, padx=(0,0), pady=(10,0))
 
 var = BooleanVar() 
 var.set(False)
 entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg=extern_color, activebackground=extern_color, command=done_update)
-entryActive.grid(row=3, column=5, sticky=EW, padx=(20,0), pady=(0,5))
+entryActive.grid(row=3, column=5, padx=(0,0), pady=(0,5))
 
-labelListUpdates = Label(lf, text="Update List", font=(None, 11), bg=extern_color, fg='white', anchor="w")
+
+
+
+labelDone = Label(lf, text="Task Done", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor='w')
+labelDone.grid(row=2, column=6, padx=(0,50), pady=(10,0))
+
+var = BooleanVar() 
+var.set(False)
+entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg=extern_color, activebackground=extern_color, command=done_update)
+entryActive.grid(row=3, column=6, padx=(0,45), pady=(0,5))
+
+
+
+
+
+labelListUpdates = Label(lf, text="Update List", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelListUpdates.grid(row=2, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(10,0))
 
 box_value = StringVar()
 box = ttk.Combobox(lf, width= 41, justify='left', textvariable=box_value, state='readonly', font=(None, 12))
-box.grid(row=3, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(0,5), ipady=(2))
+box.grid(row=3, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(0,5), ipady=(0))
+
+entryStartDate.config(state='disabled')
+entryTitle.config(state='disabled')
+entryDescription.config(state='disabled')
+entryUpdateDate.config(state='disabled')
+entryUpdateDescription.config(state='disabled')
 
 def make_ordinal(n):
 
@@ -222,13 +255,13 @@ tv.bind("<Button-1>", disableEvent)
 
 tv_scroll.config(command=tv.yview)
 
-tv["column"] = ['ID','Start Date','Title','Description','Last Update','Last Update Description','Done']
+tv["column"] = ['ID','Start Date','Task Title','Task Description','Last Update','Last Update Description','Done']
 tv["show"] = "headings"
 
 tv.column("ID", minwidth=75, width=75, anchor='center')
 tv.column("Start Date", minwidth=175, width=175, anchor='center')
-tv.column("Title", minwidth=200, width=200, anchor='w')
-tv.column("Description", minwidth=300, width=300, anchor='w')
+tv.column("Task Title", minwidth=200, width=200, anchor='w')
+tv.column("Task Description", minwidth=300, width=300, anchor='w')
 tv.column("Last Update", minwidth=175, width=175, anchor='center')
 tv.column("Last Update Description", minwidth=300, width=300, anchor='w')
 tv.column("Done", minwidth=75, width=75, anchor='center')
@@ -279,17 +312,17 @@ def add_task():
     frame_add.grid(row=0, column=0)
 
     frame_add_var = StringVar()
-    lfadd = LabelFrame(frame_add, text=f"  Task ID:  {id_}  ", font=(None, 11), bg=extern_color, fg='white')
+    lfadd = LabelFrame(frame_add, text=f"  Task ID:  {id_}  ", font=(None, 11, 'bold'), bg=extern_color, fg='white')
     lfadd.grid(row=0, column=0, padx=10, pady=10, ipadx=5, ipady=0)
 
-    labeladd = Label(lfadd, text="Title", font=(None, 11), bg=extern_color, fg='white', anchor='w')
+    labeladd = Label(lfadd, text="Task Title", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor='w')
     labeladd.grid(row=0, column=0, sticky=EW, padx=10, pady=(5,0))
 
     add_var_title = StringVar()
     entryadd = Entry(lfadd, width= 30, justify='left', textvariable=add_var_title, font=(None, 11), bg=intern_color, fg='white', insertbackground='white')
     entryadd.grid(row=1, column=0, sticky=EW, padx=10, pady=0)
 
-    labeladddesc = Label(lfadd, text="Description", font=(None, 11), bg=extern_color, fg='white', anchor='w')
+    labeladddesc = Label(lfadd, text="Task Description", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor='w')
     labeladddesc.grid(row=2, column=0, sticky=EW, padx=10, pady=(5,0))
 
     add_var_desc = StringVar()
@@ -313,7 +346,7 @@ def add_task():
     def enter_add_task(event):
         add_task_commit()
 
-    buttonaddup = Button(lfadd, text='Add Task', command=add_task_commit, bg='SteelBlue2')
+    buttonaddup = Button(lfadd, text='Add Task', command=add_task_commit, bg='SteelBlue2', activebackground=intern_color, activeforeground='white', font=(None, 12, 'bold'))
     buttonaddup.grid(row=4, column=0, padx=10, pady=(10,8), ipadx=5)
 
     newWindow.bind('<Return>', enter_add_task)
@@ -383,6 +416,12 @@ root.bind('<Delete>', call_delete)
 
 def clear_inputs():
 
+    entryStartDate.config(state='normal')
+    entryTitle.config(state='normal')
+    entryDescription.config(state='normal')
+    entryUpdateDate.config(state='normal')
+    entryUpdateDescription.config(state='normal')
+
     entryStartDate.delete(0, "end")
     entryTitle.delete(0, "end")
     entryDescription.delete(0, "end")
@@ -391,6 +430,12 @@ def clear_inputs():
     var.set(False)
     box.set('')
     box['values'] = ""
+
+    entryStartDate.config(state='disabled')
+    entryTitle.config(state='disabled')
+    entryDescription.config(state='disabled')
+    entryUpdateDate.config(state='disabled')
+    entryUpdateDescription.config(state='disabled')
 
 def add_update():
 
@@ -420,10 +465,10 @@ def add_update():
         frame_up.grid(row=0, column=0)
 
         frame_up_var = StringVar()
-        lfup = LabelFrame(frame_up, text=f"  Task ID:  {id_}  ", font=(None, 11), bg=extern_color, fg='white')
+        lfup = LabelFrame(frame_up, text=f"  Task ID:  {id_}  ", font=(None, 11, 'bold'), bg=extern_color, fg='white')
         lfup.grid(row=0, column=0, padx=10, pady=10, ipadx=5, ipady=0)
 
-        labelupdesc = Label(lfup, text="Update Description", font=(None, 11), bg=extern_color, fg='white', anchor='w')
+        labelupdesc = Label(lfup, text="Update Description", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor='w')
         labelupdesc.grid(row=0, column=0, sticky=EW, padx=10, pady=5)
 
         update_var = StringVar()
@@ -444,7 +489,7 @@ def add_update():
         def enter_update(event):
             add_update_commit()
 
-        buttonaddup = Button(lfup, text='Add Update', command=add_update_commit, bg='Lime Green')
+        buttonaddup = Button(lfup, text='Add Update', command=add_update_commit, bg='Lime Green', activebackground=intern_color, activeforeground='white', font=(None, 12, 'bold'))
         buttonaddup.grid(row=2, column=0, padx=10, pady=(10,8), ipadx=5)
 
         newWindow.bind('<Return>', enter_update)
@@ -454,13 +499,13 @@ def add_update():
 frame_buttons = Frame(root, bg=extern_color)
 frame_buttons.grid(row=2, column=0, pady=(10,10), padx=(10,0))
 
-buttonAddTask = Button(frame_buttons, borderwidth=4, font=(None, 12), width=17, text='New Task', command=add_task, bg='SteelBlue2')
+buttonAddTask = Button(frame_buttons, borderwidth=4, font=(None, 12, 'bold'), width=15, text='New Task', command=add_task, bg='SteelBlue2', activebackground=intern_color, activeforeground='white')
 buttonAddTask.grid(row=0, column=0, padx=(0,0), pady=(0,10), ipady=(3))
 
-buttonAddUpdate = Button(frame_buttons, borderwidth=4, font=(None, 12), width=17, text='Add Update', command=add_update, bg='Lime Green')
+buttonAddUpdate = Button(frame_buttons, borderwidth=4, font=(None, 12, 'bold'), width=15, text='Add Update', command=add_update, bg='Lime Green', activebackground=intern_color, activeforeground='white')
 buttonAddUpdate.grid(row=1, column=0, padx=(0,0), pady=(0,10), ipady=(3))
 
-buttonDeleteTask = Button(frame_buttons, borderwidth=4, font=(None, 12), width=17, text='Delete', command=call_delete_bt, bg='Tomato2')
+buttonDeleteTask = Button(frame_buttons, borderwidth=4, font=(None, 12, 'bold'), width=15, text='Delete', command=call_delete_bt, bg='Tomato2', activebackground=intern_color, activeforeground='white')
 buttonDeleteTask.grid(row=2, column=0, pady=(0,0), ipady=(3))
 
 ###################################################################################################
@@ -468,7 +513,7 @@ buttonDeleteTask.grid(row=2, column=0, pady=(0,0), ipady=(3))
 style = ttk.Style()
 style.theme_use("default")
 
-style.configure("Treeview.Heading", font=(None, 13), borderwidth=4, background='SteelBlue2', foreground="black", fieldbackground=intern_color)
+style.configure("Treeview.Heading", font=(None, 13, 'bold'), borderwidth=4, background='SteelBlue2', foreground="black", fieldbackground=intern_color)
 style.configure("Treeview", font=(None, 12), borderwidth=4, background=intern_color, foreground="white", fieldbackground=intern_color)
 
 style.map("Treeview.Heading", foreground=[('pressed', 'white')], background=[('pressed', intern_color)])
@@ -484,11 +529,9 @@ style.map('TCombobox', selectborderwidth = [('readonly', 0)])
 
 bigfont = font.Font(family="Helvetica",size=12)
 root.option_add("*TCombobox*Listbox*Font", bigfont)
-
 root.option_add('*TCombobox*Listbox.Background', intern_color) 
 root.option_add('*TCombobox*Listbox.Foreground', 'white') 
 root.option_add('*TCombobox*Listbox.selectBackground', 'SteelBlue2') 
-
 # root.option_add('*TCombobox*Listbox.Justify', 'center')
 
 style.configure( 'Vertical.TScrollbar', background='SteelBlue2' )
@@ -537,31 +580,41 @@ def add_tv_rows():
 
 add_tv_rows()
 
-def detect_tv_click(event):
+def detect_entry_click(event):
     global editing
     global index_
-
-    index_ = box.current()
-
+    
+    # if index_:
+    #     index_ = 0
+    # # index_ = box.current()
     editing = "updates"
      
-entryTitle.bind("<Button-1>", detect_tv_click)
-entryDescription.bind("<Button-1>", detect_tv_click)
-entryUpdateDescription.bind("<Button-1>", detect_tv_click)
+entryTitle.bind("<Button-1>", detect_entry_click)
+entryDescription.bind("<Button-1>", detect_entry_click)
+entryUpdateDescription.bind("<Button-1>", detect_entry_click)
 
 def handle_selection(event):
+
+    clear_inputs()
+
+    entryStartDate.config(state='normal')
+    entryTitle.config(state='normal')
+    entryDescription.config(state='normal')
+    entryUpdateDate.config(state='normal')
+    entryUpdateDescription.config(state='normal')
 
     global item
     global updates
     global editing
     global deleting
+    # global index_ 
 
-    # index_ = box.current()
+    # if index_ < 0:
+    #     index_ = 0
 
     labelUpdateDate.config(text=f'Last Update')
     labelUpdateDescription.config(text=f'Last Update Description')
 
-    clear_inputs()
 
     selection = tv.selection()
     if selection:
@@ -581,7 +634,11 @@ def handle_selection(event):
         else:
             var.set(False)
 
+        # updates = [f'{"DONE ":>15}{f"{cont:02d}":^40}{update[0]:<35}{update[1]:<40}' for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
+
         updates = [f'          {cont:02d}                                        {update[0]}                                        {update[1]}' for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
+        # updates = ['{:>10}{:^60}{:40}'.format(str(f'{cont:02d}'), str(update[0]), str(update[1]) ) for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
+        
         updates.reverse()
 
         box['values'] = updates
@@ -590,21 +647,29 @@ def handle_selection(event):
             box.current(0)
 
         if len(updates) > 0 and editing == "updates":
-            box.current(index_)
-            if int(index_) != 0:
-                labelUpdateDate.config(text=f'{make_ordinal(index_final+1)} Update')
-                labelUpdateDescription.config(text=f'{make_ordinal(index_final+1)} Update Description')
-            
-                updateDate_variable.set("")
-                updateDescription_variable.set("")
-                updateDate_variable.set(update_to_edit[0])
-                updateDescription_variable.set(update_to_edit[1])
-            else:
+            try:
+                box.current(index_)
+                if int(index_) != 0:
+                    labelUpdateDate.config(text=f'{make_ordinal(index_final+1)} Update')
+                    labelUpdateDescription.config(text=f'{make_ordinal(index_final+1)} Update Description')
+                
+                    updateDate_variable.set("")
+                    updateDescription_variable.set("")
+                    updateDate_variable.set(update_to_edit[0])
+                    updateDescription_variable.set(update_to_edit[1])
+                else:
+                    labelUpdateDate.config(text=f'Last Update')
+                    labelUpdateDescription.config(text=f'Last Update Description')
+            except:
                 labelUpdateDate.config(text=f'Last Update')
                 labelUpdateDescription.config(text=f'Last Update Description')
+                box.current(0)
 
         editing = "task"
         deleting = "task"
+
+        entryStartDate.config(state='disabled')
+        entryUpdateDate.config(state='disabled')
 
         # print('edit ' +editing)
         # print('del ' +deleting)
