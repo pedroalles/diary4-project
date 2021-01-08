@@ -17,8 +17,8 @@ class Diary(Tk):
         self.attributes('-alpha', 0.0)
 
         self.selection_color = "SteelBlue2"
-        self.intern_color = "gray4"
-        self.extern_color = "gray16"
+        self.intern_color = "gray3"
+        self.extern_color = "gray7"
         self.font_color = 'white'
         self.font_labels = (None, 12, 'bold')
         self.font_entrys = (None, 12)
@@ -34,11 +34,11 @@ class Diary(Tk):
         #     newTask = Task(task, f'Task {task:02d}', f'Description {task:02d}', startDate)
         #     self.taskList.append(newTask)
 
-        self.config(bg=self.intern_color)
+        self.config(bg=self.extern_color)
 
         self.open_database()
        
-        self.geometry("1350x420+0+0")
+        self.geometry("1351x690+0+0")
         self.startGui()
 
 
@@ -95,6 +95,9 @@ class Diary(Tk):
         self.style.configure("Treeview", font=self.font_entrys, borderwidth=0, background=self.intern_color, foreground=self.font_color, fieldbackground=self.intern_color)
         self.style.configure('Treeview', rowheight=25)
 
+        # self.style.configure('TSeparator', borderwidth=10)
+
+
         self.style.map("Treeview.Heading", foreground=[('pressed', 'white')], background=[('pressed', self.intern_color)])
         self.style.map("Treeview", foreground=[('selected', 'black')],  background=[('selected', 'SteelBlue2')])
 
@@ -117,19 +120,32 @@ class Diary(Tk):
 
 
     def createLayout(self):
-        self.btFrame = Frame(self, bg=self.intern_color)
-        self.btFrame.grid(row=0, column=0, padx=(5,0), pady=(5,5), sticky=N)
 
-        self.taskCheckFrame = Frame(self, bg=self.intern_color)
-        self.taskCheckFrame.grid(row=0, column=1, padx=(5,0), pady=(30,5), sticky=N)
+        self.btFrame = LabelFrame(self, bg=self.extern_color, bd=3)
+        # self.btFrame.grid(row=0, column=0, padx=(10,0), pady=(10,10), sticky=EW, columnspan=4)
+        self.btFrame.pack(side=TOP, expand=1, fill=BOTH, padx=(10,10), pady=(10,10))
+        # self.btFrame.pack_propagate(False)
+
+
+        self.labelframe = LabelFrame(self, bg=self.intern_color, bd=3)
+        # self.labelframe.grid(row=1, column=0, padx=(10,10), pady=(0,5), columnspan=2)
+        self.labelframe.pack(side=LEFT, expand=1, fill=BOTH, padx=(10,10), pady=(10,10))
+        # self.labelframe.pack_propagate(False)
+
+        self.taskCheckFrame = Frame(self.labelframe, bg=self.intern_color, width=48)
+        self.taskCheckFrame.pack(side=LEFT, expand=0, fill=BOTH, padx=(0,0), pady=(25,0))
+        # self.taskCheckFrame.grid(row=1, column=0, padx=(0,0), pady=(25,0), sticky=N)
         
-        self.tvFrame = Frame(self, bg=self.intern_color)
-        self.tvFrame.grid(row=0, column=2, padx=(0,5), pady=(5,5), sticky=N)
+        self.tvFrame = Frame(self.labelframe, bg=self.intern_color)
+        self.tvFrame.pack(side=LEFT, expand=1, fill=BOTH, padx=(0,0), pady=(0,10))
+        # self.tvFrame.grid(row=1, column=1, padx=(0,0), pady=(0,0), sticky=N)
 
-        self.updatesFrame = Frame(self, bg=self.intern_color)
-        self.updatesFrame.grid(row=0, column=3, padx=(0,5), pady=(5,5), sticky=N)
+        self.updateLf = LabelFrame(self, text=f'  Updates:  00  ', bd=3, bg=self.extern_color, font=self.font_labels, fg=self.font_color)
+        self.updateLf.pack(side=LEFT, expand=1, fill=BOTH, padx=(10,10), pady=(0,10))
+        # self.updatesFrame.grid(row=1, column=3, padx=(10,0), pady=(0,5), sticky=N)
+        # self.updateLf.pack_propagate(False)
+        
     
-
     def createButtons(self):
         bt_borderwidth = 4
         bt_width = 14
@@ -143,8 +159,8 @@ class Diary(Tk):
             command=self.new_win_add_task,
             activebackground=self.intern_color,
             activeforeground='white')
-        self.bt_add_task.grid(row=0, column=0, padx=(0,0), pady=(0,5), ipady=(3))
-
+        # self.bt_add_task.grid(row=0, column=0, padx=(0,10), pady=(0,0), ipady=(3), sticky=N)
+        self.bt_add_task.pack(side=LEFT, expand=1, fill=BOTH, padx=(0,0), pady=(0,0), ipady=(0))
         self.bt_add_update = Button(self.btFrame,
             borderwidth=bt_borderwidth,
             font=self.font_labels,
@@ -154,7 +170,8 @@ class Diary(Tk):
             bg='Lime Green',
             activebackground=self.intern_color,
             activeforeground='white')
-        self.bt_add_update.grid(row=1, column=0, padx=(0,0), pady=(0,5), ipady=(3))
+        self.bt_add_update.pack(side=LEFT, expand=1, fill=BOTH, padx=(0,0), pady=(0,0), ipady=(0))
+        # self.bt_add_update.grid(row=0, column=1, padx=(0,10), pady=(0,0), ipady=(3), sticky=N)
 
         self.bt_del_task = Button(self.btFrame,
             borderwidth=bt_borderwidth,
@@ -165,7 +182,8 @@ class Diary(Tk):
             bg='Tomato2',
             activebackground=self.intern_color,
             activeforeground='white')
-        self.bt_del_task.grid(row=2, column=0, pady=(0,0), ipady=(3))
+        self.bt_del_task.pack(side=LEFT, expand=1, fill=BOTH, padx=(0,0), pady=(0,0), ipady=(0))
+        # self.bt_del_task.grid(row=0, column=2, pady=(0,0), ipady=(3), sticky=N)
 
 
     def createCheckTasks(self):
@@ -185,7 +203,7 @@ class Diary(Tk):
                 state=DISABLED)
 
             self.checksTasksWidgets.append(self.c)
-            self.c.grid(row=task, column=0, padx=(0,0), pady=(0,0), ipadx=(10))
+            self.c.grid(row=task, column=0, padx=(0,0), pady=(0,0), ipadx=(10), sticky=N)
             self.c.bind("<ButtonPress-1>", self.checkTasksClick)
 
     def populateCheckTasks(self):
@@ -223,17 +241,17 @@ class Diary(Tk):
 
 
     def createTreeView(self):
-        self.tv = ttk.Treeview(self.tvFrame, height=len(self.taskList))
-        self.tv.pack(expand=1, fill="both")
+        self.tv = ttk.Treeview(self.tvFrame, height=22)
+        self.tv.pack(expand=1, fill=BOTH, side=TOP)
 
         self.currentSelectionTv = 0
 
         self.tv["column"] = ['ID','Start Date','Task Title','Task Description']
         self.tv["show"] = "headings"
 
-        self.tv.column("ID", minwidth=45, width=45, anchor='center')
-        self.tv.column("Start Date", minwidth=145, width=145, anchor='center')
-        self.tv.column("Task Title", minwidth=225, width=225, anchor='w')
+        self.tv.column("ID", minwidth=55, width=55, anchor='center')
+        self.tv.column("Start Date", minwidth=150, width=150, anchor='center')
+        self.tv.column("Task Title", minwidth=230, width=230, anchor='w')
         self.tv.column("Task Description", minwidth=300, width=300, anchor='w')
 
         def treeview_sort_column(tv, col, reverse):
@@ -309,31 +327,28 @@ class Diary(Tk):
             self.currentCheckTask.config(bg=self.selection_color)
             self.currentCheckTask.config(state=NORMAL)
 
-            self.updateLf.configure(text=f'  Updates:  {len(self.taskList[self.currentSelectionTv-1].update_list)}  ')
+            self.updateLf.configure(text=f'  Updates:  {len(self.taskList[self.currentSelectionTv-1].update_list):02d}  ')
             
             self.createUpdateList()
-            self.checkTop.config(bg='black', fg='white', activebackground='black', activeforeground='white',selectcolor="black")
+            self.checkTop.config(bg=self.extern_color, fg='white', activebackground=self.extern_color, activeforeground='white',selectcolor=self.extern_color)
+
+            if len(self.taskList[self.currentSelectionTv-1].update_list) == 0:
+                self.checkUpdateTopVar.set(0)
+            # else:
+            #     self.checkUpdateTopVar.set(0)
 
 
     def createUpdateLf(self):
-        self.updateLf = LabelFrame(self.updatesFrame,
-            height=400,
-            width=412,
-            text=f"  Updates:  00  ",
-            bg=self.intern_color,
-            fg=self.font_color,
-            font=(None, 11)
-            )
-        self.updateLf.grid(row=0, column=0, padx=(0,5), sticky=EW)
-        self.updateLf.grid_propagate(False)
-
         self.updateHeaderFrame = Frame(self.updateLf,
-            bg=self.intern_color)
+            bg=self.extern_color)
         self.updateHeaderFrame.grid(row=0, column=0, sticky=EW)
 
+        # ttk.Separator(self.updateLf).place(x=0, y=36, relwidth=1)
+        ttk.Separator(self.updateLf).place(x=0, y=37, relwidth=1, relheight=0.002)
+
         self.updateListFrame = Frame(self.updateLf,
-            bg=self.intern_color)
-        self.updateListFrame.grid(row=1, column=0, sticky=EW, pady=(0,5))
+            bg=self.extern_color)
+        self.updateListFrame.grid(row=2, column=0, sticky=EW, pady=(0,5))
 
     def createUpdateHeaders(self):
 
@@ -341,39 +356,41 @@ class Diary(Tk):
         # c_vars.append(c_var)
         self.checkTop = Checkbutton(self.updateHeaderFrame,
             variable=self.checkUpdateTopVar,
-            bg=self.intern_color,
-            activebackground=self.intern_color,
+            bg=self.extern_color,
+            activebackground=self.extern_color,
             # state=DISABLED
             )
-        self.checkUpdateTopVar.set(True)
         
-        for update in self.taskList[self.currentSelectionTv-1].update_list:
-            if update[2] == False:
-                self.checkUpdateTopVar.set(False)
+        # self.checkUpdateTopVar.set(True)
+        
+        if len(self.taskList) > 0:
+            for update in self.taskList[self.currentSelectionTv-1].update_list:
+                if update[2] == False:
+                    self.checkUpdateTopVar.set(False)
             
         self.checkTop.bind("<ButtonPress-1>", self.confirm_mark_all)
 
         # update_check_objects.append(c)
 
-        self.checkTop.grid(row=0, column=0, padx=(0,0), pady=(5,0))
+        self.checkTop.grid(row=0, column=0, padx=(10,10), pady=(5,15))
 
         lb1 = Label(self.updateHeaderFrame,
-            width=12,
+            width=13,
             text='Update Date',
-            bg=self.intern_color,
+            bg=self.extern_color,
             fg=self.font_color,
-            font=(None, 11),
+            font=self.font_labels,
             anchor='w')
-        lb1.grid(row=0, column=1, sticky=EW, padx=(0,0), pady=(5,0))
+        lb1.grid(row=0, column=1, sticky=EW, padx=(0,0), pady=(5,15))
 
         lb2 = Label(self.updateHeaderFrame,
-        width=20,
-        bg=self.intern_color,
+        width=28,
+        bg=self.extern_color,
         fg=self.font_color,
         text='Update Description',
-        font=(None, 11),
+        font=self.font_labels,
         anchor='w')
-        lb2.grid(row=0, column=2, sticky=EW, padx=(10,0), pady=(5,0))
+        lb2.grid(row=0, column=2, sticky=EW, padx=(10,0), pady=(5,15))
     
     def createUpdateList(self):
 
@@ -394,13 +411,13 @@ class Diary(Tk):
             self.c_vars.append(c_var)
             c = Checkbutton(self.updateListFrame,
                 variable=self.c_vars[cont],
-                bg=self.intern_color,
-                # activebackground=self.intern_color,
+                bg=self.extern_color,
+                activebackground=self.extern_color,
                 # state=DISABLED
                 )
             c.bind("<ButtonPress-1>", self.checkUpdatesClick)
             self.update_check_objects.append(c)
-            c.grid(row=cont, column=0, padx=(0,0), pady=(0,0), sticky=EW)
+            c.grid(row=cont, column=0, padx=(10,10), pady=(0,5), sticky=EW)
 
             self.update_check = self.taskList[self.currentSelectionTv-1].update_list[cont][2]
 
@@ -416,7 +433,7 @@ class Diary(Tk):
                 textvariable=e_update_date_vars[cont],
                 bg=self.intern_color,
                 fg=self.font_color,
-                font=(None, 11),
+                font=(None, 12),
                 width=14,
                 justify='center'
                 )
@@ -424,7 +441,7 @@ class Diary(Tk):
             self.update_date_objects.append(e)
             # update_date_objects[cont].bind('<ButtonPress-1>', press_enter)
 
-            e.grid(row=cont, column=1, padx=(0,0), pady=(0,0), sticky=EW)
+            e.grid(row=cont, column=1, padx=(0,10), pady=(0,5), sticky=EW)
             e.insert(0, update[0])
 
             e_description_var = StringVar()
@@ -433,17 +450,20 @@ class Diary(Tk):
                 textvariable=e_description_vars[cont],
                 bg=self.intern_color,
                 fg=self.font_color,
-                font=(None, 11),
+                font=(None, 12),
                 width=30)
 
             self.update_description_objects.append(e)
             # update_description_objects[cont].bind('<ButtonPress-1>', press_enter)
 
-            e.grid(row=cont, column=2, padx=(10,10), pady=(0,0), sticky=EW)
+            e.grid(row=cont, column=2, padx=(10,10), pady=(0,5), sticky=EW)
             e.insert(0, update[1])
 
+            if len(self.taskList[self.currentSelectionTv-1].update_list) > 0:
+                self.checkUpdateTopVar.set(1)
+            else:
+                self.checkUpdateTopVar.set(0)
 
-            self.checkUpdateTopVar.set(True)
             for update in self.taskList[self.currentSelectionTv-1].update_list:
                 if update[2] == False:
                     self.checkUpdateTopVar.set(False)
@@ -452,7 +472,7 @@ class Diary(Tk):
         check = event.widget
         check_id = self.update_check_objects.index(check)
 
-        print(check_id)
+        # print(check_id)
 
         self.taskList[self.currentSelectionTv-1].update_list[check_id][2] = not self.taskList[self.currentSelectionTv-1].update_list[check_id][2]
 
@@ -478,6 +498,12 @@ class Diary(Tk):
 
 
     def confirm_mark_all(self, event):
+
+        if self.currentSelectionTv == 0:
+            return
+
+        if len(self.taskList[self.currentSelectionTv-1].update_list) == 0:
+            return
 
         self.checkUpdateTopVarStatus = self.checkUpdateTopVar.get()
 
@@ -619,6 +645,11 @@ class Diary(Tk):
         self.tv.selection_set(child_id)
         self.tv.focus(child_id)
         self.newWindow.destroy()
+
+        # self.labelframe.grid_propagate(False)
+        self.btFrame.pack_propagate(False)
+        self.labelframe.pack_propagate(False)
+        self.updateLf.pack_propagate(False)
 
     def enter_add_task(self, event):
         self.add_task_commit()
