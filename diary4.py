@@ -148,32 +148,16 @@ labelUpdateDescription.grid(row=0, column=5, sticky=EW, padx=(15, 15), pady=(5,0
 
 updateDescription_variable = StringVar()
 entryUpdateDescription = Entry(lf, borderwidth= 4, width= 31, justify='left', textvariable=updateDescription_variable, font=(None, 12), bg=intern_color, fg='white', insertbackground='white')
-entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=(15, 15), pady=0, columnspan=2)
+entryUpdateDescription.grid(row=1, column=5, sticky=EW, padx=(15, 15), pady=0)
 entryUpdateDescription.config(disabledbackground=intern_color, disabledforeground='white')
 
-
-labelDone = Label(lf, text="Update Done", font=(None, 11, 'bold'), bg=extern_color, fg='white')
-labelDone.grid(row=2, column=5, padx=(0,0), pady=(10,0))
-
-var = BooleanVar() 
-var.set(False)
-entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg=extern_color, activebackground=extern_color, command=done_update)
-entryActive.grid(row=3, column=5, padx=(0,0), pady=(0,5))
-
-
-
-
-labelDone = Label(lf, text="Task Done", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor='w')
-labelDone.grid(row=2, column=6, padx=(0,50), pady=(10,0))
+labelDone = Label(lf, text="Task Done", font=(None, 11, 'bold'), bg=extern_color, fg='white')
+labelDone.grid(row=2, column=5, sticky=EW, padx=(10,0), pady=(10,0))
 
 var = BooleanVar() 
 var.set(False)
 entryActive = Checkbutton(lf, variable=var, font=(None, 11), bg=extern_color, activebackground=extern_color, command=done_update)
-entryActive.grid(row=3, column=6, padx=(0,45), pady=(0,5))
-
-
-
-
+entryActive.grid(row=3, column=5, sticky=EW, padx=(20,0), pady=(0,5))
 
 labelListUpdates = Label(lf, text="Update List", font=(None, 11, 'bold'), bg=extern_color, fg='white', anchor="w")
 labelListUpdates.grid(row=2, column=0, sticky=EW, columnspan=5, padx=(15,0), pady=(10,0))
@@ -547,7 +531,7 @@ def add_tv_rows():
     for i in tv.get_children():
         tv.delete(i)
 
-    rows = []
+    
     for cont, task in enumerate(task_list):
 
         task_id_ = f'{int(task_list[cont].task_id):02d}'
@@ -634,8 +618,6 @@ def handle_selection(event):
         else:
             var.set(False)
 
-        # updates = [f'{"DONE ":>15}{f"{cont:02d}":^40}{update[0]:<35}{update[1]:<40}' for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
-
         updates = [f'          {cont:02d}                                        {update[0]}                                        {update[1]}' for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
         # updates = ['{:>10}{:^60}{:40}'.format(str(f'{cont:02d}'), str(update[0]), str(update[1]) ) for cont, update in enumerate(task_list[int(item['values'][0])-1].update_list, start=1)]
         
@@ -675,6 +657,8 @@ def handle_selection(event):
         # print('del ' +deleting)
 
 tv.bind("<<TreeviewSelect>>", handle_selection)
+
+
 
 def close_window():
 
