@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['diary_new.py'],
-             pathex=['C:\\_p\\diary4\\diary4-project'],
+             pathex=['C:\\Users\\pedro\\OneDrive\\Documentos\\GitHub\\diary4-project'],
              binaries=[],
              datas=[],
              hiddenimports=[],

@@ -59,6 +59,7 @@ class Diary(Tk):
         self.createUpdateHeaders()
 
         self.bind("<Return>", self.enter_checkTaskClick)
+        self.bind('<Delete>', self.call_delete)
         self.tv.bind("<<TreeviewSelect>>", self.selectTvItens)
         self.protocol("WM_DELETE_WINDOW", self.close_window)
         
@@ -178,7 +179,7 @@ class Diary(Tk):
             font=self.font_labels,
             width=bt_width,
             text='Delete',
-            command=...,
+            command=self.delete_task,
             bg='Tomato2',
             activebackground=self.intern_color,
             activeforeground='white')
@@ -730,6 +731,36 @@ class Diary(Tk):
     def enter_update(self,event):
         self.add_update_commit()
 
+
+    def delete_task(self):
+
+        selection = self.tv.selection()
+        if selection:
+
+            result = messagebox.askquestion("Delete Task", "Are You Sure?", icon='warning')
+            if result == 'yes':
+                
+                self.taskList.pop(self.currentSelectionTv -1)
+
+                for cont, task in enumerate(self.taskList, start=1):
+                    task.task_id = cont
+
+                self.checksTasksWidgets[-1].grid_remove()
+                self.checksTasksWidgets.pop(-1)
+
+                self.populateCheckTasks()
+
+                self.populateTvRows()
+
+                # self.clear_inputs()
+
+                self.currentSelectionTv = 0
+
+        else:
+            pass
+    
+    def call_delete(self, event):
+            self.delete_task()
 
     def start(self):
         self.mainloop()
